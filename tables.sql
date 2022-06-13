@@ -10,3 +10,11 @@ CREATE TABLE session (
     "userId" integer REFERENCES users(id),
     token text NOT NULL UNIQUE
 );
+
+CREATE TABLE urls (
+    id serial PRIMARY KEY NOT NULL,
+    url text NOT NULL,
+    "userId" integer REFERENCES users(id),
+    "shortURL" text NOT NULL UNIQUE,
+    "countVisit" integer NOT NULL DEFAULT 0,
+);

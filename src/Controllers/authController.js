@@ -1,4 +1,3 @@
-import jwt from 'jsonwebtoken';
 import db from "../db.js";
 import { nanoid } from 'nanoid';
 import bcrypt from "bcrypt";
