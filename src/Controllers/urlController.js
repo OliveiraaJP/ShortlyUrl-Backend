@@ -1,7 +1,24 @@
 import { nanoid } from "nanoid";
 import db from "../db.js";
 
-export const getUrl = async (req, res) => {};
+export const getUrl = async (req, res) => {
+    const { id } = req.params
+
+    try {
+        const query = await db.query(
+            `SELECT id ,url ,"shortUrl" FROM urls WHERE id=$1`, [id]);
+
+        if(query.rowCount === 0){
+            return res.status(404).send('urls não encontradas')
+        }
+        const url = query.rows[0];
+
+        res.send(url)
+    } catch (error) {
+        console.log('get url error: ', error); 
+        res.sendStatus(500);
+    }
+};
 
 export const getOpenUrl = async (req, res) => {};
 
