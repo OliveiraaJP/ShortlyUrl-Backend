@@ -32,14 +32,21 @@ export const getOpenUrl = async (req, res) => {
 
 export const deleteUrl = async (req, res) => {
   const { id } = req.params;
-  const { loggedUser } = req.locals;
+  const { loggedUser } = res.locals;
 
   try {
     const query = await db.query(`SELECT * FROM users WHERE id=$1`, [id])
     const user = query.rows[0];
     if(query.rowCount ===0 ){
         return res.status(404).send('Usuário não encontrado')
+    }  
+
+    if(user.id !== loggedUser.id){
+      return res.status('401').send('token nao valido')
     }
+
+    await db.query(`DELETE FROM urls WHERE id=$1`, [id])
+
   } catch (error) {
     console.log('delete url error: ', error);
   }
